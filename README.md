@@ -21,7 +21,7 @@ El sistema sigue los principios de **CQRS (Command Query Responsibility Segregat
 
 El proyecto sigue una arquitectura limpia y modular con 4 capas principales:
 
-![Diagrama](./layer-arquitecture.png)
+![Diagrama](./clean-architecture.png)
 ---
 
 
