@@ -66,7 +66,7 @@ docker compose up --build
 ```
 ### 2. Acceder a la API
 Una vez levantado, la API estará disponible en:
-👉 http://localhost:5017
+👉 http://localhost:5017/swagger/index.html
 
 ---
 ## 📡 Endpoints Principales
