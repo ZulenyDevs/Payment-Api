@@ -1,0 +1,60 @@
+services:
+  # ==========================================
+  # Servicio Web API (Payment)
+  # ==========================================
+  payment-service:
+    build:
+      context: .
+      dockerfile: dockerfile         # Usa el Dockerfile del proyecto Payment
+    container_name: payment-service
+    ports:
+      - "5017:5000"                  # Puerto del host 5017 -> contenedor 5000
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db_service;Database=payment;Username=dev_user;Password=11235813
+      - Sentry__Dsn=https://24140945404144a56e3a71912109a2b5@o4509306989248512.ingest.us.sentry.io/4509306991542272
+      - Sentry__SendDefaultPii=true
+      - Sentry__MaxRequestBodySize=Always
+      - Sentry__MinimumBreadcrumbLevel=Debug
+      - Sentry__MinimumEventLevel=Warning
+      - Sentry__AttachStackTrace=true
+      - Sentry__Debug=true
+      - Sentry__DiagnosticLevel=Error
+    depends_on:
+      - db_service                   # Espera a que la DB esté lista
+    networks:
+      - dev-network
+
+  # ==========================================
+  # Servicio de Base de Datos PostgreSQL
+  # ==========================================
+  db_service:
+    build:
+      context: .
+      dockerfile: dockerfile-postgres-ini  # Construye desde tu Dockerfile custom de Postgres
+    container_name: db_service
+    environment:
+      - POSTGRES_DB=payment
+      - POSTGRES_USER=dev_user
+      - POSTGRES_PASSWORD=11235813
+    ports:
+      - "5440:5432"                  # Puerto del host 5440 -> contenedor 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persistencia de datos
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "dev_user", "-d", "payment"]
+      interval: 10s
+      retries: 5
+      start_period: 20s
+    networks:
+      - dev-network
+
+# ==========================================
+# Redes y volúmenes
+# ==========================================
+networks:
+  dev-network:
+    external: true
+
+volumes:
+  postgres_data:

@@ -1,0 +1,10 @@
+# Usa la imagen oficial de PostgreSQL 17.5
+FROM postgres:17.5
+
+# Variables de entorno (configuración inicial)
+ENV POSTGRES_DB=payment
+ENV POSTGRES_USER=dev_user
+ENV POSTGRES_PASSWORD=11235813
+
+# Copia los scripts SQL de inicialización
+COPY ./postgres-db-init.sql /docker-entrypoint-initdb.d/

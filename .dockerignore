@@ -1,0 +1,15 @@
+# Ignora los archivos y carpetas que no necesitas en la imagen Docker
+**/.dockerignore
+**/.git
+**/.github
+**/.vs
+**/bin
+**/obj
+**/node_modules
+**/Dockerfile
+**/docker-compose.yml
+**/.env
+**/.vscode
+**/*.user
+**/*.suo
+**/*.lock.json
